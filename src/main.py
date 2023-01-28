@@ -1,24 +1,21 @@
 import time
-from picamera import PiCamera
+from picamera2 import Picamera2
 import telebot
 import config
 
 bot = telebot.TeleBot(config.BOT_TOKEN)
 print("[DEBUG] bot object set up")
 
-camera = PiCamera()
-camera.resolution(720, 720)
+print("[DEBUG] setting up camera...")
+camera = Picamera2()
 print("[DEBUG] camera set up")
-print("[DEBUG] camera resolution: " + str(camera.resolution))
-print("[DEBUG] camera zoom: " + str(camera.zoom))
-
 print("[DEBUG] warming up the camera...")
 time.sleep(2)
 
 def take_picture():
     name = str(round(time.time())) + ".jpg"
     print("[INFO] capturing photo, say cheese!")
-    camera.capture(name)
+    camera.start_and_capture_file(name, show_preview=False)
     print("[INFO] saved photo", name)
     return name
 
@@ -34,4 +31,4 @@ def main(message):
     send_picture(picture)
 
 
-    
+bot.polling() 
