@@ -1,0 +1,10 @@
+[Unit]
+Description=Nature Net hackathon project!
+
+[Service]
+WorkingDirectory=/home/pi/campfire
+ExecStart=/usr/bin/python src/main.py
+Environment=PYTHONUNBUFFERED=1
+
+[Install]
+WantedBy=default.target
