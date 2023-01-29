@@ -5,16 +5,13 @@ from libcamera import Transform
 import telebot
 
 import config
-import plants
-import narrator
-import speech
 
 bot = telebot.TeleBot(config.BOT_TOKEN)
 print("[INFO] bot object set up")
 
 print("[INFO] setting up camera...")
 camera = Picamera2()
-cam_config = camera.create_still_configuration()
+cam_config = camera.create_still_configuration(transform=Transform())
 camera.set_controls({"ExposureTime": 100000, "Sharpness": 2.0,
                      "Brightness": 0.1})
 camera.configure(cam_config)
@@ -35,34 +32,15 @@ def process_picture(path):
     print("[INFO] processing photo", path, "...")
     photo = open(path, "rb")
 
-    identification = plants.identify_plant(path)
-    print("[INFO] plant identified as", identification)
-
     bot.send_photo(config.CHAT_ID, photo)
-    bot.send_message(config.CHAT_ID, identification)
     print("[INFO] photo sent to", config.CHAT_ID)
-
-    narration = narrator.narrate(identification)
-    print("[INFO] narration generated:", narration)
-
-    print("[INFO] narration will be spoken now")
-    speech.speak(narration)
-
-
-
-
-# @bot.message_handler(commands=["photo"])
-# def main(message):
-#     picture = take_picture()
-#     send_picture(picture)
-# bot.polling()
 
 if __name__ == "__main__":
     GPIO.setmode(GPIO.BOARD)
-    GPIO.setup(18, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+    GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
     while True:
-        if GPIO.input(18) == GPIO.HIGH:
+        if GPIO.input(10) == GPIO.HIGH:
             print("[INFO] detected a press!")
             picture = take_picture()
             process_picture(picture)
