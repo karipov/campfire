@@ -64,6 +64,7 @@ if __name__ == "__main__":
     while True:
         if GPIO.input(18) == GPIO.HIGH:
             print("[INFO] detected a press!")
+            bot.send_message(config.CHAT_ID, "detected a press!")
             picture = take_picture()
             process_picture(picture)
 
