@@ -1,4 +1,5 @@
 # NatureNet
+![Made with love in Hack@Brown 2023](https://madewithlove.now.sh/af?heart=true&text=Hack%40Brown+2023)
 > Upgrade your Camping Experience
 
 Check out the Devpost for more: https://devpost.com/software/naturenet
