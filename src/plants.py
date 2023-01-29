@@ -2,6 +2,7 @@ import config
 import base64
 import requests
 import time
+import pprint
 
 def encode_file(file_name):
     with open(file_name, "rb") as file:
@@ -33,5 +34,22 @@ def identify_plant(image):
                              json=params,
                              headers=headers)
 
-    return response.json()
+    out = response.json()
 
+    # find common name
+    common_name = None
+    for suggestion in out["suggestions"]:
+        names = suggestion["plant_details"]["common_names"]
+        if names:
+            common_name = names[0]
+            break
+
+    if common_name == None:
+        common_name = out["suggestions"][0]["plant_name"]
+
+
+
+    return common_name
+
+if __name__ == "__main__":
+    print(identify_plant("images/1674958543.jpg"))

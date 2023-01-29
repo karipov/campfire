@@ -1,8 +1,10 @@
 import openai
+import config
 
-def narrate(plant_detected):
-    print("[DEBUG]", plant_detected)
-    prompt = f"Tell me about {plant_detected['common_names'][0]}, is it edible?"
+openai.api_key = config.OPENAI_KEY
+
+def narrate(plant):
+    prompt = f"Tell me more about the {plant}"
 
     result = openai.Completion.create(
         # (for use during testing: curie is faster/cheaper than davinci but not as high quality)
